@@ -59,46 +59,48 @@ const Categories: React.FC = () => {
             </div>
 
             <div className="card">
-                <table className="data-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {categories.map((cat) => (
-                            <tr key={cat.id}>
-                                <td>{cat.name}</td>
-                                <td>
-                                    <span style={{
-                                        padding: '4px 8px',
-                                        borderRadius: '4px',
-                                        background: cat.type === 'Big'
-                                            ? (theme === 'dark' ? '#5f3e0e' : '#ffec99')
-                                            : (theme === 'dark' ? '#1b4332' : '#d3f9d8'),
-                                        color: cat.type === 'Big'
-                                            ? (theme === 'dark' ? '#ffd43b' : '#e67700')
-                                            : (theme === 'dark' ? '#b7e4c7' : '#2b8a3e'),
-                                        fontSize: '0.85rem'
-                                    }}>
-                                        {cat.type}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button
-                                        className="btn btn-danger"
-                                        style={{ padding: '5px 10px', fontSize: '0.8rem' }}
-                                        onClick={() => handleDelete(cat.id)}
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
-                                </td>
+                <div className="table-container">
+                    <table className="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th style={{ width: '150px' }}>Type</th>
+                                <th style={{ width: '100px' }}>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {categories.map((cat) => (
+                                <tr key={cat.id}>
+                                    <td className="wrap">{cat.name}</td>
+                                    <td>
+                                        <span style={{
+                                            padding: '4px 8px',
+                                            borderRadius: '4px',
+                                            background: cat.type === 'Big'
+                                                ? (theme === 'dark' ? '#5f3e0e' : '#ffec99')
+                                                : (theme === 'dark' ? '#1b4332' : '#d3f9d8'),
+                                            color: cat.type === 'Big'
+                                                ? (theme === 'dark' ? '#ffd43b' : '#e67700')
+                                                : (theme === 'dark' ? '#b7e4c7' : '#2b8a3e'),
+                                            fontSize: '0.85rem'
+                                        }}>
+                                            {cat.type}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button
+                                            className="btn btn-danger"
+                                            style={{ padding: '5px 10px', fontSize: '0.8rem' }}
+                                            onClick={() => handleDelete(cat.id)}
+                                        >
+                                            <Trash2 size={14} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {showModal && (
@@ -126,7 +128,11 @@ const Categories: React.FC = () => {
                                 <button
                                     type="button"
                                     className="btn"
-                                    style={{ flex: 1, backgroundColor: '#e9ecef' }}
+                                    style={{
+                                        flex: 1,
+                                        backgroundColor: theme === 'dark' ? '#2d3139' : '#e9ecef',
+                                        color: theme === 'dark' ? '#fff' : 'inherit'
+                                    }}
                                     onClick={() => setShowModal(false)}
                                 >
                                     Cancel

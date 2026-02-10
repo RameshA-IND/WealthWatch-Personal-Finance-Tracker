@@ -138,75 +138,83 @@ const Budgets: React.FC = () => {
 
             {/* Budgets Table */}
             <div className="card">
-                <table className="data-table">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Period</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {budgets.map((budget) => {
-                            const alert = alerts.find(a => a.budgetId === budget.id);
-                            return (
-                                <tr key={budget.id}>
-                                    <td>{budget.category?.name || 'Unknown'}</td>
-                                    <td style={{ fontWeight: 'bold' }}>₹{budget.amount}</td>
-                                    <td>
-                                        <span style={{
-                                            padding: '4px 8px',
-                                            borderRadius: '4px',
-                                            background: budget.period === 'monthly'
-                                                ? (theme === 'dark' ? '#1b4332' : '#d3f9d8')
-                                                : (theme === 'dark' ? '#1864ab' : '#d0ebff'),
-                                            color: budget.period === 'monthly'
-                                                ? (theme === 'dark' ? '#b7e4c7' : '#2b8a3e')
-                                                : (theme === 'dark' ? '#d0ebff' : '#1971c2'),
-                                            fontSize: '0.85rem'
-                                        }}>
-                                            {budget.period}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        {alert ? (
+                <div className="table-container">
+                    <table className="data-table wide">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Period</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {budgets.map((budget) => {
+                                const alert = alerts.find(a => a.budgetId === budget.id);
+                                return (
+                                    <tr key={budget.id}>
+                                        <td>{budget.category?.name || 'Unknown'}</td>
+                                        <td style={{ fontWeight: 'bold' }}>₹{budget.amount}</td>
+                                        <td>
                                             <span style={{
-                                                color: alert.status === 'exceeded'
-                                                    ? (theme === 'dark' ? '#ff8787' : '#c92a2a')
-                                                    : (theme === 'dark' ? '#ffd43b' : '#e67700'),
-                                                fontWeight: 'bold'
+                                                padding: '4px 8px',
+                                                borderRadius: '4px',
+                                                background: budget.period === 'monthly'
+                                                    ? (theme === 'dark' ? '#1b4332' : '#d3f9d8')
+                                                    : (theme === 'dark' ? '#1864ab' : '#d0ebff'),
+                                                color: budget.period === 'monthly'
+                                                    ? (theme === 'dark' ? '#b7e4c7' : '#2b8a3e')
+                                                    : (theme === 'dark' ? '#d0ebff' : '#1971c2'),
+                                                fontSize: '0.85rem'
                                             }}>
-                                                {alert.percentage}% used
+                                                {budget.period}
                                             </span>
-                                        ) : (
-                                            <span style={{ color: theme === 'dark' ? '#69db7c' : '#40c057' }}>
-                                                <CheckCircle size={16} style={{ verticalAlign: 'middle' }} /> On track
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td>
-                                        <button
-                                            className="btn"
-                                            style={{ padding: '5px 10px', fontSize: '0.8rem', marginRight: '5px', background: '#e7f5ff', color: '#1c7ed6' }}
-                                            onClick={() => handleEditClick(budget)}
-                                        >
-                                            <Edit2 size={14} />
-                                        </button>
-                                        <button
-                                            className="btn btn-danger"
-                                            style={{ padding: '5px 10px', fontSize: '0.8rem' }}
-                                            onClick={() => handleDelete(budget.id)}
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                        </td>
+                                        <td>
+                                            {alert ? (
+                                                <span style={{
+                                                    color: alert.status === 'exceeded'
+                                                        ? (theme === 'dark' ? '#ff8787' : '#c92a2a')
+                                                        : (theme === 'dark' ? '#ffd43b' : '#e67700'),
+                                                    fontWeight: 'bold'
+                                                }}>
+                                                    {alert.percentage}% used
+                                                </span>
+                                            ) : (
+                                                <span style={{ color: theme === 'dark' ? '#69db7c' : '#40c057' }}>
+                                                    <CheckCircle size={16} style={{ verticalAlign: 'middle' }} /> On track
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn"
+                                                style={{
+                                                    padding: '5px 10px',
+                                                    fontSize: '0.8rem',
+                                                    marginRight: '5px',
+                                                    background: theme === 'dark' ? '#1e3a5f' : '#e7f5ff',
+                                                    color: theme === 'dark' ? '#3b82f6' : '#1c7ed6'
+                                                }}
+                                                onClick={() => handleEditClick(budget)}
+                                            >
+                                                <Edit2 size={14} />
+                                            </button>
+                                            <button
+                                                className="btn btn-danger"
+                                                style={{ padding: '5px 10px', fontSize: '0.8rem' }}
+                                                onClick={() => handleDelete(budget.id)}
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {/* Add/Edit Modal */}
@@ -246,7 +254,11 @@ const Budgets: React.FC = () => {
                                 <button
                                     type="button"
                                     className="btn"
-                                    style={{ flex: 1, backgroundColor: '#e9ecef' }}
+                                    style={{
+                                        flex: 1,
+                                        backgroundColor: theme === 'dark' ? '#2d3139' : '#e9ecef',
+                                        color: theme === 'dark' ? '#fff' : 'inherit'
+                                    }}
                                     onClick={() => setShowModal(false)}
                                 >
                                     Cancel

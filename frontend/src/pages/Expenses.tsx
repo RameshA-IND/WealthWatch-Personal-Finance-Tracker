@@ -6,8 +6,10 @@ import { Trash2, Plus, Edit2, FileDown, FileSpreadsheet } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { useTheme } from '../context/ThemeContext';
 
 const Expenses: React.FC = () => {
+    const { theme } = useTheme();
     const [expenses, setExpenses] = useState<Expense[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [showModal, setShowModal] = useState(false);
@@ -142,43 +144,51 @@ const Expenses: React.FC = () => {
             </div>
 
             <div className="card">
-                <table className="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Category</th>
-                            <th>Notes</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {expenses.map((exp) => (
-                            <tr key={exp.id}>
-                                <td>{exp.expenseDate}</td>
-                                <td>{exp.category?.name || 'Uncategorized'}</td>
-                                <td>{exp.notes}</td>
-                                <td style={{ fontWeight: 'bold' }}>₹{exp.amount}</td>
-                                <td>
-                                    <button
-                                        className="btn"
-                                        style={{ padding: '5px 10px', fontSize: '0.8rem', marginRight: '5px', background: '#e7f5ff', color: '#1c7ed6' }}
-                                        onClick={() => handleEditClick(exp)}
-                                    >
-                                        <Edit2 size={14} />
-                                    </button>
-                                    <button
-                                        className="btn btn-danger"
-                                        style={{ padding: '5px 10px', fontSize: '0.8rem' }}
-                                        onClick={() => handleDelete(exp.id)}
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
-                                </td>
+                <div className="table-container">
+                    <table className="data-table wide">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Notes</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {expenses.map((exp) => (
+                                <tr key={exp.id}>
+                                    <td>{exp.expenseDate}</td>
+                                    <td>{exp.category?.name || 'Uncategorized'}</td>
+                                    <td className="wrap">{exp.notes}</td>
+                                    <td style={{ fontWeight: 'bold' }}>₹{exp.amount}</td>
+                                    <td>
+                                        <button
+                                            className="btn"
+                                            style={{
+                                                padding: '5px 10px',
+                                                fontSize: '0.8rem',
+                                                marginRight: '5px',
+                                                background: theme === 'dark' ? '#1e3a5f' : '#e7f5ff',
+                                                color: theme === 'dark' ? '#3b82f6' : '#1c7ed6'
+                                            }}
+                                            onClick={() => handleEditClick(exp)}
+                                        >
+                                            <Edit2 size={14} />
+                                        </button>
+                                        <button
+                                            className="btn btn-danger"
+                                            style={{ padding: '5px 10px', fontSize: '0.8rem' }}
+                                            onClick={() => handleDelete(exp.id)}
+                                        >
+                                            <Trash2 size={14} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {showModal && (
@@ -207,7 +217,18 @@ const Expenses: React.FC = () => {
                             </div>
                             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
                                 <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>{editingId ? 'Update' : 'Save'}</button>
-                                <button type="button" className="btn" style={{ flex: 1, backgroundColor: '#e9ecef' }} onClick={() => setShowModal(false)}>Cancel</button>
+                                <button
+                                    type="button"
+                                    className="btn"
+                                    style={{
+                                        flex: 1,
+                                        backgroundColor: theme === 'dark' ? '#2d3139' : '#e9ecef',
+                                        color: theme === 'dark' ? '#fff' : 'inherit'
+                                    }}
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
