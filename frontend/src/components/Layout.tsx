@@ -18,7 +18,10 @@ const Layout: React.FC = () => {
     return (
         <div className="app-layout">
             <aside className="sidebar">
-                <h2 style={{ marginBottom: '30px', padding: '0 10px' }}>💰 WealthWatch</h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '35px', padding: '0 10px' }}>
+                    <img src="/logo.svg" alt="WealthWatch Logo" style={{ width: '40px', height: '40px' }} />
+                    <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>WealthWatch</h2>
+                </div>
                 <nav style={{ flex: 1 }}>
                     <NavLink to="/" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <LayoutDashboard size={20} color="#3b82f6" /> Dashboard
