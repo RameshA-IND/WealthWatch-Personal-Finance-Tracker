@@ -193,7 +193,11 @@ const Reports: React.FC = () => {
                         <label>&nbsp;</label>
                         <button
                             className="btn"
-                            style={{ background: '#e9ecef', width: '100%' }}
+                            style={{
+                                background: theme === 'dark' ? '#2d3139' : '#e9ecef',
+                                color: theme === 'dark' ? '#fff' : 'inherit',
+                                width: '100%'
+                            }}
                             onClick={clearFilters}
                         >
                             Clear Filters
@@ -209,46 +213,48 @@ const Reports: React.FC = () => {
                         data={data}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#333' : '#eee'} />
-                        <XAxis dataKey="name" tick={{ fill: theme === 'dark' ? '#fff' : '#666' }} />
-                        <YAxis tick={{ fill: theme === 'dark' ? '#fff' : '#666' }} />
+                        <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#444' : '#ddd'} vertical={false} />
+                        <XAxis dataKey="name" tick={{ fill: theme === 'dark' ? '#cbd5e1' : '#666' }} axisLine={{ stroke: theme === 'dark' ? '#444' : '#ddd' }} />
+                        <YAxis tick={{ fill: theme === 'dark' ? '#cbd5e1' : '#666' }} axisLine={{ stroke: theme === 'dark' ? '#444' : '#ddd' }} />
                         <Tooltip
                             contentStyle={{
-                                backgroundColor: theme === 'dark' ? '#1e1e1e' : '#fff',
-                                border: `1px solid ${theme === 'dark' ? '#333' : '#eee'}`,
+                                backgroundColor: theme === 'dark' ? '#16181d' : '#fff',
+                                border: `1px solid ${theme === 'dark' ? '#3f444e' : '#eee'}`,
                                 borderRadius: '8px',
                                 color: theme === 'dark' ? '#fff' : '#000'
                             }}
                             itemStyle={{ color: theme === 'dark' ? '#fff' : '#000' }}
                         />
-                        <Legend wrapperStyle={{ color: theme === 'dark' ? '#fff' : '#666' }} />
-                        <Bar dataKey="amount" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                        <Legend wrapperStyle={{ color: theme === 'dark' ? '#cbd5e1' : '#666', paddingTop: '10px' }} />
+                        <Bar dataKey="amount" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
 
             <div className="card" style={{ marginTop: '20px' }}>
                 <h3>Recent Expenses ({expenses.length} total)</h3>
-                <table className="data-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {expenses.slice(0, 10).map((exp) => (
-                            <tr key={exp.id}>
-                                <td>{exp.expenseDate}</td>
-                                <td>{exp.category?.name || 'Uncategorized'}</td>
-                                <td style={{ fontWeight: 'bold' }}>₹{exp.amount}</td>
-                                <td>{exp.notes}</td>
+                <div className="table-container">
+                    <table className="data-table wide">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Notes</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {expenses.slice(0, 10).map((exp) => (
+                                <tr key={exp.id}>
+                                    <td>{exp.expenseDate}</td>
+                                    <td>{exp.category?.name || 'Uncategorized'}</td>
+                                    <td style={{ fontWeight: 'bold' }}>₹{exp.amount}</td>
+                                    <td className="wrap">{exp.notes}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

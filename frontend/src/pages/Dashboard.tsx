@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px' }}>
                 <div className="card" style={{ height: '400px' }}>
                     <h3>Expense by Category</h3>
                     <ResponsiveContainer width="100%" height="100%">
