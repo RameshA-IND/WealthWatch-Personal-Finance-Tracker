@@ -25,16 +25,22 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const dbType = configService.get('DB_TYPE') || 'better-sqlite3';
+        const dbUrl = configService.get('DATABASE_URL');
+
+        console.log(`[Database Connection] Type detected: ${dbType}`);
 
         if (dbType === 'postgres') {
+          console.log(`[Database Connection] Attempting to connect to PostgreSQL...`);
+          if (!dbUrl) {
+            console.error('[Database Error] DB_TYPE is postgres but DATABASE_URL is missing!');
+          }
+
           return {
             type: 'postgres',
-            url: configService.get('DATABASE_URL'),
+            url: dbUrl,
             entities: [User, Category, Expense, Budget],
-            synchronize: true, // Auto-create tables
-            ssl: {
-              rejectUnauthorized: false,
-            },
+            synchronize: true,
+            ssl: true, // Simplified SSL for maximum compatibility
             extra: {
               ssl: {
                 rejectUnauthorized: false,
@@ -43,6 +49,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           };
         }
 
+        console.log(`[Database Connection] Falling back to local SQLite`);
         return {
           type: 'better-sqlite3',
           database: 'expense-manager.db',
