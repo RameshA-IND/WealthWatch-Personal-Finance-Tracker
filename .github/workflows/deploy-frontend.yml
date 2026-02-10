@@ -36,6 +36,7 @@ jobs:
           touch dist/.nojekyll
         env:
           VITE_DEPLOY: gh-pages
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
