@@ -39,7 +39,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               console.log(`[Database Connection] Host: ${urlParts.hostname}`);
               console.log(`[Database Connection] Port detected: ${urlParts.port}`);
             } catch (e) {
-              console.log('[Database Connection] Using raw DATABASE_URL (could not parse)');
+              console.log('[Database Connection] Using raw DATABASE_URL');
             }
           }
 
@@ -48,12 +48,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             url: dbUrl,
             entities: [User, Category, Expense, Budget],
             synchronize: true,
-            ssl: {
-              rejectUnauthorized: false, // This is the fix for self-signed certificates
-            },
+            ssl: true, // Required for some drivers to trigger SSL
             extra: {
               ssl: {
-                rejectUnauthorized: false,
+                rejectUnauthorized: false, // Forcing it here too
               },
             },
           };
