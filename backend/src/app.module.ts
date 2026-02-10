@@ -33,6 +33,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           console.log(`[Database Connection] Attempting to connect to PostgreSQL...`);
           if (!dbUrl) {
             console.error('[Database Error] DB_TYPE is postgres but DATABASE_URL is missing!');
+          } else {
+            try {
+              const urlParts = new URL(dbUrl);
+              console.log(`[Database Connection] Host: ${urlParts.hostname}`);
+              console.log(`[Database Connection] Port detected: ${urlParts.port}`);
+            } catch (e) {
+              console.log('[Database Connection] Using raw DATABASE_URL (could not parse)');
+            }
           }
 
           return {
