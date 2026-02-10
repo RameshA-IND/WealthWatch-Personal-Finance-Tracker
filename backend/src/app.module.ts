@@ -48,7 +48,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             url: dbUrl,
             entities: [User, Category, Expense, Budget],
             synchronize: true,
-            ssl: true, // Simplified SSL for maximum compatibility
+            ssl: {
+              rejectUnauthorized: false, // This is the fix for self-signed certificates
+            },
             extra: {
               ssl: {
                 rejectUnauthorized: false,
