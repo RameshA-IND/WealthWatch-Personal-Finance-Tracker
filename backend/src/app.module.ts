@@ -14,13 +14,27 @@ import { Category } from './categories/category.entity';
 import { Expense } from './expenses/expense.entity';
 import { Budget } from './budgets/budget.entity';
 
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'better-sqlite3',
-      database: 'expense-manager.db',
-      entities: [User, Category, Expense, Budget],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const dbType = configService.get('DB_TYPE') || 'better-sqlite3';
+        return {
+          type: dbType as any,
+          url: configService.get('DATABASE_URL'), // Used for PostgreSQL
+          database: dbType === 'postgres' ? undefined : 'expense-manager.db',
+          entities: [User, Category, Expense, Budget],
+          synchronize: true, // Auto-create tables (keep enabled for now)
+          ssl: dbType === 'postgres' ? { rejectUnauthorized: false } : false,
+        };
+      },
+      inject: [ConfigService],
     }),
     AuthModule,
     UsersModule,
