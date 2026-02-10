@@ -25,13 +25,29 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const dbType = configService.get('DB_TYPE') || 'better-sqlite3';
+
+        if (dbType === 'postgres') {
+          return {
+            type: 'postgres',
+            url: configService.get('DATABASE_URL'),
+            entities: [User, Category, Expense, Budget],
+            synchronize: true, // Auto-create tables
+            ssl: {
+              rejectUnauthorized: false,
+            },
+            extra: {
+              ssl: {
+                rejectUnauthorized: false,
+              },
+            },
+          };
+        }
+
         return {
-          type: dbType as any,
-          url: configService.get('DATABASE_URL'), // Used for PostgreSQL
-          database: dbType === 'postgres' ? undefined : 'expense-manager.db',
+          type: 'better-sqlite3',
+          database: 'expense-manager.db',
           entities: [User, Category, Expense, Budget],
-          synchronize: true, // Auto-create tables (keep enabled for now)
-          ssl: dbType === 'postgres' ? { rejectUnauthorized: false } : false,
+          synchronize: true,
         };
       },
       inject: [ConfigService],
