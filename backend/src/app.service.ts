@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Hello World!';
+    return 'WealthWatch API is Running! Please visit the Frontend URL to login.';
   }
 }
