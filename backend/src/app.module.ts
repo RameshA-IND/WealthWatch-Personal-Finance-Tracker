@@ -48,12 +48,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             url: dbUrl,
             entities: [User, Category, Expense, Budget],
             synchronize: true,
-            ssl: true, // Required for some drivers to trigger SSL
+            ssl: {
+              rejectUnauthorized: false,
+            },
             extra: {
               ssl: {
-                rejectUnauthorized: false, // Forcing it here too
+                rejectUnauthorized: false,
               },
             },
+            logging: true, // Turn on SQL logging temporarily to see activity
           };
         }
 
