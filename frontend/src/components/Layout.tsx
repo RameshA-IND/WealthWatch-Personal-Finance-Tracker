@@ -4,6 +4,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Wallet, Layers, DollarSign, FileBarChart, Settings, LogOut, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import logo from '../assets/logo.svg';
 
 const Layout: React.FC = () => {
     const { logout } = useAuth();
@@ -19,7 +20,7 @@ const Layout: React.FC = () => {
         <div className="app-layout">
             <aside className="sidebar">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '35px', padding: '0 10px' }}>
-                    <img src="/logo.svg" alt="WealthWatch Logo" style={{ width: '40px', height: '40px' }} />
+                    <img src={logo} alt="WealthWatch Logo" style={{ width: '40px', height: '40px' }} />
                     <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>WealthWatch</h2>
                 </div>
                 <nav style={{ flex: 1 }}>
