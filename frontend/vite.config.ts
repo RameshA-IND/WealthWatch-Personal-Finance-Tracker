@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['logo.svg', 'vite.svg'],
       manifest: {
         name: 'WealthWatch - Personal Finance Tracker',
         short_name: 'WealthWatch',
